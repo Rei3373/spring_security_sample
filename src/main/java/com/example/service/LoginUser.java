@@ -34,36 +34,38 @@ public class LoginUser implements UserDetails {
     public String getUsername() {
         return this.user.getEmail();
     }
-
-    // 以降は今回利用しません
-
-    // ユーザーに付与された権限を返却する
+    
+    //ユーザに付与された権限を返却
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.NO_AUTHORITIES;
+        // ロールカラムを見て、認証ユーザのロールを設定する
+        if (this.user.getRole().equals("管理者")) {
+            return AuthorityUtils.createAuthorityList("ADMIN", "GENERAL");
+        }
+        return AuthorityUtils.createAuthorityList("GENERAL");
     }
-
-    // アカウントの有効期限の状態を判定する
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    // アカウントのロック状態を判定する
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    // 資格情報の有効期限の状態を判定する
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    // 有効なユーザかを判定する
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    
+	 // アカウントの有効期限の状態を判定する
+	    @Override
+	    public boolean isAccountNonExpired() {
+	        return true;
+	    }
+	
+	    // アカウントのロック状態を判定する
+	    @Override
+	    public boolean isAccountNonLocked() {
+	        return true;
+	    }
+	
+	    // 資格情報の有効期限の状態を判定する
+	    @Override
+	    public boolean isCredentialsNonExpired() {
+	        return true;
+	    }
+	
+	    // 有効なユーザかを判定する
+	    @Override
+	    public boolean isEnabled() {
+	        return true;
+	    }
 }

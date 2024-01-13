@@ -32,6 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	    http.logout()
     	        .logoutUrl("/logout") //ログアウト処理のパス
     	        .logoutSuccessUrl("/loginForm"); //ログアウト成功後のパス
+    	    
+
+            // 認可の設定
+            http.authorizeRequests()
+                .antMatchers("/loginForm").permitAll()
+                .antMatchers("/admin").hasAuthority("ADMIN") // 管理者のみ/adminにアクセスできる
+                .anyRequest().authenticated();
     } 
     
     // ハッシュアルゴリズムの定義
